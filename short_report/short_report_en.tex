@@ -13,78 +13,32 @@
 \usepackage[onepage]{mas1004}
 
 \reporttitle{Assignment 2: Short report}
-\studentname{Your name}
-\studentid{Your student ID}
+\studentname{TRUONG HOANG HAI ANH}
+\studentid{20231165}
 
 \begin{document}
 \makeheader
 
-% The text, one page. The guide below shows the LaTeX you need.
-% Read it, then delete it and write your report here.
+I tried:
+I ran the starter code for both tracks without changing anything. For Track A, I trained the starter recipe on all 44,257 training photos, two times with different seeds. This was to see how much the score changes just by luck. For Track B, I trained the starter ResNet18 for 4 epochs and checked that the model passes the size limits. I did not remove or add any photos.
 
-\section*{What LaTeX is}
+The results were:
+Track A seed 0 = 0.4965.
+Track A seed 1 = 0.4924.
+Track B = 0.4987.
 
-This file is written in LaTeX. A LaTeX file is plain text with a few commands
-in it, and every command starts with a backslash, such as \verb|\section*|. On
-Overleaf the file is on the left and the PDF on the right. When you press
-Recompile, Overleaf reads the file and makes the PDF again.
+I was surprised that:
+Just changing the seed moved the score by about 0.004. That is bigger than the gap between Track B and Track A seed 0 (0.0023). I was also surprised that the cities are so different. Tokyo is easy (about 0.60 to 0.64), but Osaka is hard (about 0.34 to 0.37). Many Osaka photos were guessed as Tokyo.
 
-Everything on this page comes from the file on the left. Compare the left and
-the right to see how each part is written. Then delete this guide, from
-\verb|\section*{What LaTeX is}| down to the line before \verb|\figurepages|,
-and write your report in its place.
+I learned that:
+A small score difference does not always mean one run is better, because luck can change the score too. I also learned that one overall score hides a lot. The score for each city and the confusion table show much more about what the model gets wrong.
 
-\section*{Writing text}
+If I had more time:
+I would look at the photos the model got wrong with high confidence, especially Osaka photos guessed as Tokyo. Then I would try one change at a time, for example removing indoor photos, and compare with the starter result.
 
-\begin{itemize}
-  \item Type your sentences as they are. Line breaks inside a paragraph make no
-    difference: LaTeX breaks the lines itself.
-  \item A blank line starts a new paragraph.
-  \item \verb|\section*{A heading}| makes a heading like the ones on this page.
-    You do not have to use headings.
-  \item A list like this one starts with \verb|\begin{itemize}|, has
-    \verb|\item| before each point, and ends with \verb|\end{itemize}|.
-\end{itemize}
-
-\section*{Special characters}
-
-A \verb|%| starts a comment: the rest of that line does not appear in the PDF.
-The lines at the top of the file are comments. To print one of
-\verb|% $ & # _ { }|, put a backslash in front of it: \verb|\%|, \verb|\$|,
-\verb|\&|, \verb|\#|, \verb|\_|, \verb|\{|, \verb|\}|.
-
-\section*{Your name and figures}
-
-\begin{itemize}
-  \item Write your name and student ID in \verb|\studentname{...}| and
-    \verb|\studentid{...}| near the top of the file.
-  \item Figures go after \verb|\figurepages|, on up to three more pages. Upload
-    your image with the Upload button above the list of files on the left.
-    Then, in the example figure after \verb|\figurepages|, write the file name
-    in place of \verb|example-image-a|. \verb|width=0.7\linewidth| makes the
-    figure 0.7 times as wide as the text.
-  \item For each further figure, copy the lines from \verb|\begin{figure}| to
-    \verb|\end{figure}|. If you have no figures, delete the example.
-\end{itemize}
-
-\section*{When something goes wrong}
-
-\begin{itemize}
-  \item If Recompile shows an error, look at the line number in the message.
-    Most often a \verb|}| is missing, or one of the special characters above
-    has no backslash in front of it.
-  \item If the text runs past one page, a red note appears at the end of it.
-    The same happens if the figures take more than three pages.
-\end{itemize}
+Overall:
+I learned that before trying to make a model better, I should first check how much its score changes by luck.
 
 \figurepages
-
-% The figures, up to three pages.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.7\linewidth]{example-image-a}
-  \caption{What the figure shows.}
-\end{figure}
 
 \end{document}

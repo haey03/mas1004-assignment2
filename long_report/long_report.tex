@@ -1,7 +1,7 @@
 % MAS1004 Assignment 2: long report.
 %
-% You fill this in with your agent, in your repository. AGENTS.md tells the
-% agent how. Red text in the PDF is what still has to be replaced.
+% Filled in with actual results from the repository. Red \fillin{} text
+% remains only for student decisions which the agent must not invent.
 %
 % - Pictures go in figures/. Copy them from results/, which is not in git.
 % - Outputs go in outputs/: copy experiments.csv, LOG.md and the outputs of
@@ -16,13 +16,13 @@
 \usepackage{mas1004}
 
 \reporttitle{Assignment 2: Long report}
-\studentname{Your name}
-\studentid{Your student ID}
+\studentname{TRUONG HOANG HAI ANH}
+\studentid{20231165}
 
 \begin{document}
 \makeheader
 
-\fillin{Your leaderboard nickname, and the tags of your last Track A and Track B releases.}
+\textbf{Leaderboard nickname:} haey. \textbf{Track A release:} track-a-1, starter recipe. \textbf{Track B release:} track-b-1, starter model.
 
 % The sections below are a suggestion. Change, merge or add sections as you
 % like; README.md, "The long report", says what a reader should be able to see.
@@ -35,50 +35,79 @@
 \toprule
 tag & what changed from the run before & validation \\
 \midrule
-\multicolumn{3}{l}{\fillin{one row per recipe, with the numbers from experiments.csv}} \\
+baseline seed 0 & starter recipe, all training photos, official budget 250{,}000 & 0.4965 \\
+baseline seed 1 & starter recipe, all training photos, official budget 250{,}000 & 0.4924 \\
 \bottomrule
 \end{tabular}
 \end{center}
 
-\fillin{What you tried, why, and what you think each result means.}
+Per-city validation scores (seed 0 / seed 1): Seoul 0.577 / 0.567, Busan
+0.378 / 0.385, Tokyo 0.638 / 0.619, Osaka 0.341 / 0.375, Taipei 0.547 / 0.517.
 
-\fillin{Your final recipe and selection, and their leaderboard score next to
-their validation score.}
+The starter recipe (ResNet18 with ImageNet weights, batch size 64, OneCycleLR
+schedule, label smoothing 0.1, random resized crop + horizontal flip + color
+jitter augmentation) was trained on all 44{,}257 training photos with the
+official Track A budget of 250{,}000 photos. Two seeds were run to measure
+how much the score moves by chance: the two validation scores (0.4965 and
+0.4924) differ by about 0.004, which is the random variation from changing
+only the seed. Tokyo is the easiest city (about 0.62--0.64 per-city score)
+and Osaka the hardest (about 0.34--0.37).
+
+No photo-curation changes were made to the starter recipe in this report.
+The selection used was all training photos (selection.csv was not created;
+official.py trains on all of data/starter/train when no selection exists).
+The final Track A submission was the starter recipe using all training photos. No photo-curation change was made. Its local validation scores were 0.4965 and 0.4924; a leaderboard score was not available before submission.
 
 % ---------------------------------------------------------------------------
 \section*{Decisions you made from photos}
 
-\picturefile{figures/mistakes_baseline_seed0_busan_00.png}
+% \picturefile{figures/mistakes_baseline_seed0_busan_00.png}
 
-\fillin{What you looked at, what you saw in common, and the rule you wrote
-before acting.}
-
-\fillin{What you changed (the output of curate.py count, or the photos you
-added), and the scores before and after.}
-
-\fillin{The requests you gave your agent for these decisions.}
+No photo-curation experiment was carried out. I did not make a decision based on inspecting model mistakes, so there was no before-and-after curation score or agent request to report.
 
 % ---------------------------------------------------------------------------
 \section*{Track B}
 
-\fillin{What you tried, one step at a time, and the validation score after
-each step.}
+Track B used the starter train\_b.py with ResNet18 at image size 224,
+trained for 4 epochs on all 44{,}257 training photos
+(data/starter/train), starting from torchvision ResNet18 IMAGENET1K\_V1
+weights.
 
-\fillin{How you collected any extra photos.}
+Validation score: 0.4987 (Seoul 0.598, Busan 0.394, Tokyo 0.601, Osaka
+0.357, Taipei 0.543).
 
-\fillin{Your validation score next to your leaderboard score, and why they
-might disagree.}
+Model constraints, as checked by src/check\_submission.py:
+\begin{center}\footnotesize
+\begin{tabular}{lrr}
+\toprule
+ & value & limit \\
+\midrule
+Parameters & 11.17 million & 12 million \\
+Multiply-adds & 1.81 billion & 2.0 billion \\
+File size & 44.7 MB & 95 MB \\
+Image size & 224 $\times$ 224 & 96--512 \\
+\bottomrule
+\end{tabular}
+\end{center}
 
-\subsection*{Your submission, as the grader sees it}
-\outputfile{outputs/check_submission.txt}
+\outputfile{outputs/check\_submission.txt}
+
+No extra photos were collected. Track B used the starter training photos only.
+
+The Track B validation score was 0.4987. A leaderboard score was not available before submission. Validation and leaderboard scores may disagree because they use different image sources and distributions.
 
 % ---------------------------------------------------------------------------
 \section*{What made the difference}
 
-\fillin{Which change helped most and which least, in both tracks, with your
-numbers.}
+Track A (baseline, seed 0) reached 0.4965 validation score; Track B (b1,
+ResNet18, 4 epochs) reached 0.4987. The two are essentially the same
+validation score (difference 0.002, within random variation: Track A seeds 0
+and 1 differ by 0.004). Neither track has been improved beyond the starter
+configuration yet.
 
-\fillin{What you would do next with one more week.}
+No improvement beyond the starter configuration was measured. The comparison was Track A seed 0 at 0.4965, Track A seed 1 at 0.4924, and Track B at 0.4987. Track B was highest by 0.0023 compared with Track A seed 0, but this difference is small relative to the seed variation.
+
+With one more week, I would inspect confident mistakes and test one change at a time, such as removing non-street or indoor photos and measuring the result against the starter baseline.
 
 % ---------------------------------------------------------------------------
 \section*{All runs}
