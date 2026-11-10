@@ -1,0 +1,7 @@
+# Track A: baseline starter recipe, seeds 0 and 1 (PLAN.md Step 2)
+python src/official.py --tag baseline --seed 0
+python src/official.py --tag baseline --seed 1
+
+# Track B: first model, train_b.py as-is, written to submission/ (PLAN.md Step 8)
+python src/train_b.py --tag b1 --submit
+python src/check_submission.py --no-val
